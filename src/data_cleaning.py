@@ -10,10 +10,10 @@ class DataCleaning:
             logging.info("Standardizing column names")
             df=self.standardize_column_names(df)
 
-            logging.info("Handling missing values")
-            df=self.handle_missing_values(df)
             logging.info("Removing  duplicates rows")
             df=self.remove_duplicates(df)
+            logging.info("Handling missing values")
+            df=self.handle_missing_values(df)
             logging.info("Correcting data types")
             df=self.correct_data_types(df)
             logging.info("Data cleaning completed successfully")
