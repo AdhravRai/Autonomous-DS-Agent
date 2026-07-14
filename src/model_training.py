@@ -11,13 +11,13 @@ from sklearn.linear_model import LogisticRegression,LinearRegression,Ridge,Lasso
 class ModelTraining:
     def __init__(self):
         pass
-    def perform_model_training(self,X_preprocessed,y):
+    def perform_model_training(self,X_preprocessed,y,feature_names):
         try:
             logging.info("Model Training started")
             model_type=self.detect_problem_type(y)
             X_train,X_test,y_train,y_test=self.split_data(X_preprocessed,y)
             trained_models=self.train_models(X_train,y_train,model_type)
-            return trained_models,X_train,X_test,y_train,y_test,model_type,preprocessor.get_feature_names_out()
+            return trained_models,X_train,X_test,y_train,y_test,model_type,feature_names
         except Exception as e:
             raise CustomException(e,sys)
     def detect_problem_type(self,y):

@@ -19,7 +19,8 @@ class FeatureEng:
             preprocessor=self.build_preprocessor(X)
             X_preprocessed=self.fit_transform(preprocessor,X)
             self.save_preprocessor(preprocessor)
-            return X_preprocessed,y,preprocessor
+            feature_names = preprocessor.get_feature_names_out()
+            return X_preprocessed,y,preprocessor,feature_names
         except Exception as e:
             raise CustomException(e,sys)
     def split_features_target(self,df,target):
