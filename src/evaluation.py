@@ -54,6 +54,7 @@ class Evaluation:
     
             return {
                 "comparison_results": comparison_df,
+                "problem_type": model_type,
                 "best_model_name": best_model_name,
                 "best_metrics": best_metrics,
                 "best_model_path": model_path,
@@ -136,6 +137,24 @@ class Evaluation:
             return model_path    
         except Exception as e:
             raise CustomException(e, sys)
+    def save_metrics(self, comparison_df):
+        try:
+            csv_path = self.eval_dir / "model_comparison.csv"
+            json_path = self.eval_dir / "model_comparison.json"
+            comparison_df.to_csv(
+                csv_path,
+                index=False
+            )
+            comparison_df.to_json(
+                json_path,
+                orient="records",
+                indent=4
+            )
+            logging.info("Evaluation metrics saved successfully.")   
+            return csv_path, json_path
+
+        except Exception as e:
+            raise CustomException(e, sys)
     def generate_shap(self,best_model,X_train,feature_names):
         try:    
             if not hasattr(best_model, "feature_importances_"):    
@@ -163,8 +182,8 @@ class Evaluation:
             plt.close()    
             logging.info("SHAP plots generated successfully.")    
             return {
-                "summary_plot": summary_path,
-                "waterfall_plot": waterfall_path
+                    "summary_plot": str(summary_path),
+                    "waterfall_plot": str(waterfall_path)
             } 
         except Exception as e:
             raise CustomException(e, sys)
